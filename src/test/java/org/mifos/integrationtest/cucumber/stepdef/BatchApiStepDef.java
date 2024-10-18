@@ -4,6 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.getAllServeEvents;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mifos.integrationtest.common.Utils.HEADER_FILENAME;
 import static org.mifos.integrationtest.common.Utils.HEADER_JWS_SIGNATURE;
 import static org.mifos.integrationtest.common.Utils.HEADER_PROGRAM_ID;
@@ -35,6 +36,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -283,6 +285,47 @@ public class BatchApiStepDef extends BaseStepDef {
         assertThat(scenarioScopeState.response.contains("successPercentage"));
     }
 
+    //gemini
+    // @When("I call the batch transactions endpoint with expected status of {int}")
+    // public void callBatchTransactionsEndpoint(int expectedStatus) {
+    //     await().atMost(awaitMost, SECONDS)
+    //        .pollDelay(pollDelay, SECONDS)
+    //        .pollInterval(pollInterval, SECONDS)
+    //        .untilAsserted(() -> {
+    //            RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant, scenarioScopeState.clientCorrelationId);
+
+    //            // Print request details before sending
+    //            System.out.println("Request Details:");
+    //            System.out.println("  URL: " + requestSpec.getBaseUri());
+    //            System.out.println("  Method: " + requestSpec.getMethod());
+    //            System.out.println("  Headers:");
+    //            for (String header : requestSpec.getHeaders().keySet()) {
+    //                System.out.println("    " + header + ": " + requestSpec.getHeaders().get(header));
+    //            }
+    //            System.out.println("  Query Parameters:");
+    //            for (String param : requestSpec.getQueryParams().keySet()) {
+    //                System.out.println("    " + param + ": " + requestSpec.getQueryParams().get(param));
+    //            }
+
+    //            // Send the request
+    //            Response response = requestSpec.post();
+
+    //            // Print response details
+    //            System.out.println("Response Details:");
+    //            System.out.println("  Status Code: " + response.getStatusCode());
+    //            System.out.println("  Headers:");
+    //            for (String header : response.getHeaders().keySet()) {
+    //                System.out.println("    " + header + ": " + response.getHeaders().get(header));
+    //            }
+    //            System.out.println("  Body:");
+    //            System.out.println(response.asString());
+
+    //            // Assert expected status code
+    //            assertEquals(expectedStatus, response.getStatusCode());
+    //        });
+    // }
+
+    //fred 
     @When("I call the batch transactions endpoint with expected status of {int}")
     public void callBatchTransactionsEndpoint(int expectedStatus) {
         await().atMost(awaitMost, SECONDS).pollDelay(pollDelay, SECONDS).pollInterval(pollInterval, SECONDS).untilAsserted(() -> {
@@ -299,6 +342,11 @@ public class BatchApiStepDef extends BaseStepDef {
                 requestSpec.header(HEADER_REGISTERING_INSTITUTE_ID, scenarioScopeState.registeringInstituteId);
                 requestSpec.header(HEADER_PROGRAM_ID, scenarioScopeState.programId);
             }
+
+            // Print request headers and query parameters
+            System.out.println("Request Details:");
+            requestSpec.log().all();
+
 
             File f = new File(Utils.getAbsoluteFilePathToResource(scenarioScopeState.filename));
             Response resp = RestAssured.given(requestSpec).baseUri(bulkProcessorConfig.bulkProcessorContactPoint)

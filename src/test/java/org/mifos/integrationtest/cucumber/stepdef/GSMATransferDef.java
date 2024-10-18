@@ -21,8 +21,8 @@ import org.apache.fineract.client.models.PostSavingsAccountsRequest;
 import org.apache.fineract.client.models.PostSavingsAccountsResponse;
 import org.apache.fineract.client.models.PostSavingsProductsRequest;
 import org.apache.fineract.client.models.PostSavingsProductsResponse;
-import org.apache.fineract.client.models.PostSelfLoansLoanIdApprove;
-import org.apache.fineract.client.models.PostSelfLoansLoanIdDisburse;
+// import org.apache.fineract.client.models.PostSelfLoansLoanIdApprove;
+// import org.apache.fineract.client.models.PostSelfLoansLoanIdDisburse;
 import org.apache.fineract.client.models.PostSelfLoansLoanIdResponse;
 import org.apache.fineract.client.models.PostSelfLoansRequest;
 import org.json.JSONException;
@@ -128,7 +128,7 @@ public class GSMATransferDef extends GsmaConfig {
         loanProductsRequest.setInterestType(1);
         loanProductsRequest.setInterestRatePerPeriod(19.0);
         loanProductsRequest.setRepaymentEvery(1);
-        loanProductsRequest.setTransactionProcessingStrategyId(1);
+        //loanProductsRequest.setTransactionProcessingStrategyId(1);
         loanProductsRequest.setAmortizationType(1);
         loanProductsRequest.setAccountingRule(1);
         loanProductsRequest.setInterestRateFrequencyType(2);
@@ -162,7 +162,7 @@ public class GSMATransferDef extends GsmaConfig {
         loanAccountData.setAmortizationType(1);
         loanAccountData.setInterestType(0);
         loanAccountData.setInterestCalculationPeriodType(0);
-        loanAccountData.setTransactionProcessingStrategyId(1);
+        //loanAccountData.setTransactionProcessingStrategyId(1);
         loanAccountData.setLocale("en");
         loanAccountData.setDateFormat("dd MMMM yyyy");
         loanAccountData.setLoanType("individual");
@@ -176,14 +176,14 @@ public class GSMATransferDef extends GsmaConfig {
         return new SimpleDateFormat("dd MMMM yyyy").format(date);
     }
 
-    protected String setBodyLoanApprove(int amount) throws JsonProcessingException {
-        PostSelfLoansLoanIdApprove loanApprove = new PostSelfLoansLoanIdApprove();
-        loanApprove.setApprovedOnDate(currentDate);
-        loanApprove.setApprovedLoanAmount(amount);
-        loanApprove.setLocale("en");
-        loanApprove.setDateFormat("dd MMMM yyyy");
-        return objectMapper.writeValueAsString(loanApprove);
-    }
+    // protected String setBodyLoanApprove(int amount) throws JsonProcessingException {
+    //     PostSelfLoansLoanIdApprove loanApprove = new PostSelfLoansLoanIdApprove();
+    //     loanApprove.setApprovedOnDate(currentDate);
+    //     loanApprove.setApprovedLoanAmount(amount);
+    //     loanApprove.setLocale("en");
+    //     loanApprove.setDateFormat("dd MMMM yyyy");
+    //     return objectMapper.writeValueAsString(loanApprove);
+    // }
 
     protected String setBodyLoanRepayment(String amount) throws JsonProcessingException {
         PostLoansLoanIdTransactionsTransactionIdRequest loanRepayment = new PostLoansLoanIdTransactionsTransactionIdRequest();
@@ -300,17 +300,17 @@ public class GSMATransferDef extends GsmaConfig {
         return objectMapper.writeValueAsString(postClientsRequest);
     }
 
-    protected String setBodyLoanDisburse(int amount) throws JsonProcessingException {
-        String date = getCurrentDate();
-        setcurrentDate(date);
-        PostSelfLoansLoanIdDisburse loanDisburse = new PostSelfLoansLoanIdDisburse();
-        loanDisburse.setPaymentTypeId(1);
-        loanDisburse.setTransactionAmount(amount);
-        loanDisburse.setActualDisbursementDate(currentDate);
-        loanDisburse.setLocale("en");
-        loanDisburse.setDateFormat("dd MMMM yyyy");
-        return objectMapper.writeValueAsString(loanDisburse);
-    }
+    // protected String setBodyLoanDisburse(int amount) throws JsonProcessingException {
+    //     String date = getCurrentDate();
+    //     setcurrentDate(date);
+    //     PostSelfLoansLoanIdDisburse loanDisburse = new PostSelfLoansLoanIdDisburse();
+    //     loanDisburse.setPaymentTypeId(1);
+    //     loanDisburse.setTransactionAmount(amount);
+    //     loanDisburse.setActualDisbursementDate(currentDate);
+    //     loanDisburse.setLocale("en");
+    //     loanDisburse.setDateFormat("dd MMMM yyyy");
+    //     return objectMapper.writeValueAsString(loanDisburse);
+    // }
 
     protected String setGsmaTransactionBody(String prefix) throws JsonProcessingException {
         String accountId = getAccountId(prefix);

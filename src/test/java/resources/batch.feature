@@ -1,6 +1,6 @@
 Feature: Batch Details API test
 
-  @gov @batch-teardown
+  @gov @tom @batch-teardown
   Scenario: BD-001 Batch transactions API Test
     Given I have the demo csv file "ph-ee-bulk-demo-6.csv"
     And I have tenant as "paymentBB2"
@@ -264,7 +264,7 @@ Feature: Batch Details API test
     Then I should get transactions with note set as "Duplicate transaction"
     And All the duplicate transaction should have status as Failed
 
-  @gov
+  @gov @tom
   Scenario: BA-001 Batch Authorization API test
     Given I will start the mock server
     And I can register the stub with "/authorization/callback" endpoint for "POST" request with status of 200
@@ -296,7 +296,7 @@ Feature: Batch Details API test
     Then I should be able to extract response body from callback for batch
     And I can stop mock server
 
-  @gov
+  @gov 
   Scenario: APT-001 actuator API test
     When I call the actuator API with Contactpoint "mock-payment-schema.contactpoint" and endpoint "/actuator/health"
     Then I am able to parse actuator response

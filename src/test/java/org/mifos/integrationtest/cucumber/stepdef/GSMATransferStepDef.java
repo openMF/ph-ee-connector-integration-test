@@ -273,7 +273,7 @@ public class GSMATransferStepDef extends BaseStepDef {
         RequestSpecification requestSpec = Utils.getDefaultSpec();
         requestSpec = gsmaTransferDef.setHeaders(requestSpec);
         requestSpec.queryParam("command", command);
-        gsmaTransferDef.loanApproveBody = gsmaTransferDef.setBodyLoanApprove(amount);
+        // TD gsmaTransferDef.loanApproveBody = gsmaTransferDef.setBodyLoanApprove(amount);
         // Setting account ID
         PostSelfLoansLoanIdResponse loanAccountResponse = objectMapper.readValue(gsmaTransferDef.responseLoanAccount,
                 PostSelfLoansLoanIdResponse.class);
@@ -293,7 +293,7 @@ public class GSMATransferStepDef extends BaseStepDef {
         RequestSpecification requestSpec = Utils.getDefaultSpec();
         requestSpec = gsmaTransferDef.setHeaders(requestSpec);
         requestSpec.queryParam("command", command);
-        gsmaTransferDef.loanDisburseBody = gsmaTransferDef.setBodyLoanDisburse(amount);
+        // TD gsmaTransferDef.loanDisburseBody = gsmaTransferDef.setBodyLoanDisburse(amount);
         // Setting account ID
         PostSelfLoansLoanIdResponse loanAccountResponse = objectMapper.readValue(gsmaTransferDef.responseLoanAccount,
                 PostSelfLoansLoanIdResponse.class);
