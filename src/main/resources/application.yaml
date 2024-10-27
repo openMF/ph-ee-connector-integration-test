@@ -1,6 +1,6 @@
 operations-app:
-  contactpoint: "https://ops-bk.local"
-  dpgcontactpoint: "https://ops-bk-dpg.local"
+  contactpoint: "https://ops.mifos.gazelle.test"
+  dpgcontactpoint: "https://ops.mifos.gazelle.test"
   username: "mifos"
   password: "password"
   auth:
@@ -20,13 +20,13 @@ operations-app:
 
 paybill:
   mpesa-connector:
-    contactpoint: https://mpesa.local
+    contactpoint: https://mpesa.mifos.gazelle.test
     endpoints:
       validation: "/validation"
       settlement: "/confirmation"
 
 bulk-processor:
-  contactpoint: "https://bulk-connector.local"
+  contactpoint: "https://bulk-connector.mifos.gazelle.test"
   endpoints:
     bulk-transactions: "/batchtransactions"
     simulate: "/simulate"
@@ -34,7 +34,7 @@ bulk-processor:
 
 
 channel-connector:
-  contactpoint: "https://channel.local"
+  contactpoint: "https://channel.mifos.gazelle.test"
   endpoints:
     transfer: "/channel/transfer"
     gsma-p2p: "/channel/gsma/transfer"
@@ -52,22 +52,22 @@ defaults:
   authorization: "Basic bWlmb3M6cGFzc3dvcmQ="
 
 channel:
-  base-url: https://channel.local
+  base-url: https://channel.mifos.gazelle.test
   endpoint: /channel/gsma/transaction
 
 amsmifos:
   mock:
-    base-url: https://mockpayment.local
+    base-url: https://mockpayment.mifos.gazelle.test
     endpoints:
       repayment-endpoint: /fineract/transactions/loanrepayment
       deposit-endpoint: /fineract/savingsaccount/transfers
 
 ams:
-  base-url: https://ams-mifos.local
+  base-url: https://ams-mifos.mifos.gazelle.test
   balance-endpoint: /ams/accounts/{IdentifierType}/{IdentifierId}/balance
 
 loan:
-  base-url: https://fynams.local
+  base-url: https://fynams.mifos.gazelle.test
   endpoints:
     product-endpoint: /fineract-provider/api/v1/loanproducts
     account-endpoint: /fineract-provider/api/v1/loans
@@ -77,7 +77,7 @@ loan:
     accountid-endpoint: /fineract-provider/api/v1/loans/{{loanAccId}}
 
 savings:
-  base-url: https://fynams.local
+  base-url: https://fynams.mifos.gazelle.test
   endpoints:
     client-endpoint: /fineract-provider/api/v1/clients
     product-endpoint: /fineract-provider/api/v1/savingsproducts
@@ -98,7 +98,7 @@ json-web-signature:
   x509Certificate: "MIIDvDCCAqQCCQDZK/l5vKIt7jANBgkqhkiG9w0BAQsFADCBnzELMAkGA1UEBhMCSU4xEjAQBgNVBAgMCUtBUk5BVEFLQTETMBEGA1UEBwwKRE9NQVNBTkRSQTERMA8GA1UECgwIRllOQVJGSU4xFDASBgNVBAsMC0RFVkVMT1BNRU5UMR0wGwYDVQQDDBRodHRwczovL2Z5bmFyZmluLmlvLzEfMB0GCSqGSIb3DQEJARYQYXZpa0BmeW5hcmZpbi5pbzAeFw0yMzA0MDUwNjExMDNaFw0yMzA1MDUwNjExMDNaMIGfMQswCQYDVQQGEwJJTjESMBAGA1UECAwJS0FSTkFUQUtBMRMwEQYDVQQHDApET01BU0FORFJBMREwDwYDVQQKDAhGWU5BUkZJTjEUMBIGA1UECwwLREVWRUxPUE1FTlQxHTAbBgNVBAMMFGh0dHBzOi8vZnluYXJmaW4uaW8vMR8wHQYJKoZIhvcNAQkBFhBhdmlrQGZ5bmFyZmluLmlvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtO38XREJbL1r4IAYK6K5ONNXHcmfTKlehRf0YF+vjptt4D/6zBObBOf/zqButSlN3RI/aYXBx/OOU7sjRMnOFYasXtYM5eFSGZDo/v9qsWLwrD9Ur97cE7Pnw3xb+TQNWV6orME5YI0di6X9bXrxUBDswfVmLx/wbvZIK9gJRzD1evm+4HCYo/+1tYZ3YgpNmoW4u6F44zgxeMhFPcjQIaKYm3uM8zF/hTuHhWKVJq40ucL7+mgGp36HiDE8IRfNRo/Vd6x3+FLA91RMe+96uxj7l5WUi8oja1Anb8SE4fnVvGPSArgk8t2xW6dfx86D3c5JFJczzSi5S4ldsOBHMQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBPhTd+DhzbUGqAvsU6T34Iu3k+6Br4N6m90dkvBeMgYL8J7J6Fa7hm7f6xEeDqM+RTPhuFXNlS5swjqUYg/j85jKqVtgYAB6IE7z7BTwBAtF4tJ+jVOV4PfS/lSqvfxwo/qThqU1iXFz9xU38zlqxH5JuWZjeV58uUP/vZC8Ys44RDhU4X1qDbt51Vs8E+DeV1A4aweoEVc/txEdShbxnR2MVpPpca1NOElYW2cTAWjJypgw5bJZX4G0gZmHCZhQtgXSIMC1KSqMM7DK+HA7xTfKNJ+vnD08FOzBAb6nl2cHVb/zySdNWwsPu6w3FmzgFit9Hq2zE2F41167GvRBEL"
 
 identity-account-mapper:
-  contactpoint: "https://identity-mapper.local"
+  contactpoint: "https://identity-mapper.mifos.gazelle.test"
   endpoints:
     register-beneficiary: /beneficiary
     add-payment-modality: /paymentModality
@@ -109,7 +109,7 @@ identity-account-mapper:
     actuator: "/actuator/health"
 
 kong:
-  admin-contactpoint: "http://kong-admin.local"
+  admin-contactpoint: "http://kong-admin.mifos.gazelle.test"
   endpoint:
     consumers: /consumers
     createKey: /consumers/{username}/key-auth
@@ -128,13 +128,13 @@ kong:
     host: "ph-ee-connector-bulk.paymenthub.80.svc"
     channel-connector: "https://ph-ee-connector-channel.paymenthub.8443.svc"
   route:
-    host: "bulk-connector.local"
+    host: "bulk-connector.mifos.gazelle.test"
     channel:
-      host: "channel.local"
+      host: "channel.mifos.gazelle.test"
       path: "/channel/transfer"
 
 voucher-management:
-  contactpoint: "https://vouchers.local"
+  contactpoint: "https://vouchers.mifos.gazelle.test"
   endpoints:
     create-voucher: /vouchers
     voucher-lifecycle: /vouchers
@@ -144,7 +144,7 @@ voucher-management:
 
 
 mock-payment-schema:
-  contactpoint: "https://mockpayment.local"
+  contactpoint: "https://mockpayment.mifos.gazelle.test"
   endpoints:
     mock-batch-authorization: "/batches/"
     actuator: "/actuator/health"
@@ -152,17 +152,17 @@ mock-payment-schema:
 
 netflix-conductor:
   server:
-    contactpoint: "https://conductor-server.local"
+    contactpoint: "https://conductor-server.mifos.gazelle.test"
     endpoints:
       home: "/"
       health: "/health"
       workflow: "/api/workflow"
 
 keycloak:
-  contactpoint: http://keycloak.local
+  contactpoint: http://keycloak.mifos.gazelle.test
   realm: "paymenthub"
-  introspectionEndpoint: "http://keycloak.local/auth/realms/{realm}/protocol/openid-connect/token/introspect"
-  discoveryUrl: "http://keycloak.local/auth/realms/{realm}/.well-known/openid-configuration"
+  introspectionEndpoint: "http://keycloak.mifos.gazelle.test/auth/realms/{realm}/protocol/openid-connect/token/introspect"
+  discoveryUrl: "http://keycloak.mifos.gazelle.test/auth/realms/{realm}/.well-known/openid-configuration"
   endpoint:
     token: /auth/realms/{realm}/protocol/openid-connect/token
     user: /auth/admin/realms/{realm}/users
@@ -189,9 +189,9 @@ mojaloop:
   fspid:
     payer: "payerfsp"
     payee: "payeefsp"
-  contactpoint: http://account-lookup-service.local
-  central-ledger-contactpoint: http://central-ledger.local
-  account-lookup-admin-contactpoint: http://account-lookup-service-admin.local
+  contactpoint: http://account-lookup-service.mifos.gazelle.test
+  central-ledger-contactpoint: http://central-ledger.mifos.gazelle.test
+  account-lookup-admin-contactpoint: http://account-lookup-service-admin.mifos.gazelle.test
   endpoint:
     als: /participants/{{identifierType}}/{{identifier}}
     hub-account: /participants/Hub/accounts
@@ -226,8 +226,8 @@ mojaloop:
       value: "{{CALLBACK_HOST}}"
 
 ml-connector:
-  host:  "mojaloop.local"
-  contactpoint: "https://mojaloop.local"
+  host:  "mojaloop.mifos.gazelle.test"
+  contactpoint: "https://mojaloop.mifos.gazelle.test"
   endpoint:
     get-party: "/switch/parties/{{identifierType}}/{{identifier}}"
     get-quote: "/switch/quotes"
@@ -237,7 +237,7 @@ global_wait_time_ms : 10000
 
 
 billPay:
-  contactpoint: https://bill-pay.local
+  contactpoint: https://bill-pay.mifos.gazelle.test
   endpoints:
     inquiry: /bills/{billId}
     payments: /paymentNotifications
