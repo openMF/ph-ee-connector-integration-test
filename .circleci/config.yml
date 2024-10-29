@@ -12,7 +12,7 @@ executors:
       - image: cimg/openjdk:17.0.0-node
 
 jobs:
-  build:
+  build_and_publish:
     executor: docker-executor
     environment:
       JVM_OPTS: -Xmx512m
@@ -26,14 +26,6 @@ jobs:
             TAG_NAME=${CIRCLE_BRANCH}
             ./gradlew bootJar
             docker build -t "openmf/ph-ee-integration-test:$TAG_NAME" .
-
-  push_docker_image:
-    executor: docker-executor
-    environment:
-      JVM_OPTS: -Xmx512m
-      TERM: dumb
-    steps:
-      - setup_remote_docker
       - run:
           name: Login to Docker Hub
           command: echo "$MIFOS_DOCKER_TOKEN" | docker login -u "$MIFOS_DOCKER_USER" --password-stdin
