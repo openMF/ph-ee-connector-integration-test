@@ -1,6 +1,7 @@
 Feature: Batch Details API test
 
-  @gov @tom @batch-teardown
+
+  @gov @batch-teardown
   Scenario: BD-001 Batch transactions API Test
     Given I have the demo csv file "ph-ee-bulk-demo-6.csv"
     And I have tenant as "paymentBB2"
@@ -264,7 +265,7 @@ Feature: Batch Details API test
     Then I should get transactions with note set as "Duplicate transaction"
     And All the duplicate transaction should have status as Failed
 
-  @gov @tom
+  @gov
   Scenario: BA-001 Batch Authorization API test
     Given I will start the mock server
     And I can register the stub with "/authorization/callback" endpoint for "POST" request with status of 200

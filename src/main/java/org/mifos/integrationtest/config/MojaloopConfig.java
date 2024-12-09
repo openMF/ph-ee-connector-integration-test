@@ -9,6 +9,9 @@ public class MojaloopConfig {
     @Value("${mojaloop.contactpoint}")
     public String mojaloopBaseurl;
 
+    @Value("${mojaloop.endpoint.bluebank-account}")
+    public String bluebankAccount;
+
     @Value("${mojaloop.central-ledger-contactpoint}")
     public String mojaloopCentralLedgerBaseurl;
 

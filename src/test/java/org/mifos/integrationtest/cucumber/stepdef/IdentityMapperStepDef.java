@@ -31,11 +31,15 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+// import com.google.gson.JsonObject;
+// import com.google.gson.JsonParser;
 import org.mifos.connector.common.channel.dto.TransactionChannelRequestDTO;
 import org.mifos.connector.common.identityaccountmapper.dto.AccountMapperRequestDTO;
 import org.mifos.connector.common.identityaccountmapper.dto.BeneficiaryDTO;
 import org.mifos.integrationtest.common.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+
 
 public class IdentityMapperStepDef extends BaseStepDef {
 
@@ -70,17 +74,49 @@ public class IdentityMapperStepDef extends BaseStepDef {
         paymentModalityList.put("VOUCHER", "04");
     }
 
-    @When("I call the register beneficiary API with expected status of {int} and stub {string}")
+    @Then("I call the register beneficiary API with expected status of {int} and stub {string}")
     public void iCallTheRegisterBeneficiaryAPIWithExpectedStatusOf(int expectedStatus, String stub) {
-        RequestSpecification requestSpec = Utils.getDefaultSpec();
-        scenarioScopeState.response = RestAssured.given(requestSpec).header("Content-Type", "application/json")
-                .header("X-Registering-Institution-ID", sourceBBID).header("X-CallbackURL", identityMapperConfig.callbackURL + stub)
-                .baseUri(identityMapperConfig.identityMapperContactPoint).body(registerBeneficiaryBody).expect()
-                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when()
-                .post(identityMapperConfig.registerBeneficiaryEndpoint).andReturn().asString();
+        // Initialize the request specification with default settings
+        System.out.println("TDDEBUG-1");
+        System.out.println("URI: " + identityMapperConfig.identityMapperContactPoint);
+        System.out.println("X CallBackURL: " + identityMapperConfig.callbackURL + stub);
+        System.out.println("stub: " + stub ); 
+        RequestSpecification requestSpec = Utils.getDefaultSpec()
+            .header("Content-Type", "application/json")
+            .header("X-Registering-Institution-ID", sourceBBID)
+            .header("X-CallbackURL", "http://" +identityMapperConfig.callbackURL + stub)
+            .baseUri(identityMapperConfig.identityMapperContactPoint);
+        System.out.println("DEBUG-2 Identify mapper Request Headers:");
+        requestSpec.log().all();
+        // Log only the request headers and URL to avoid serialization issues
+        logger.info("Request URI: {}", identityMapperConfig.registerBeneficiaryEndpoint);
 
+        // Perform the request with all headers and body
+        scenarioScopeState.response = RestAssured.given(requestSpec)
+            .body(registerBeneficiaryBody)
+            .expect()
+            .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
+            .when()
+            .post(identityMapperConfig.registerBeneficiaryEndpoint)
+            .andReturn()
+            .asString();
+
+        System.out.printf(" response is %s ", scenarioScopeState.response );
+        // Log the response
         logger.info("Identity Mapper Response: {}", scenarioScopeState.response);
     }
+
+    // @When("I call the register beneficiary API with expected status of {int} and stub {string}")
+    // public void iCallTheRegisterBeneficiaryAPIWithExpectedStatusOf(int expectedStatus, String stub) {
+    //     RequestSpecification requestSpec = Utils.getDefaultSpec();
+    //     scenarioScopeState.response = RestAssured.given(requestSpec).header("Content-Type", "application/json")
+    //             .header("X-Registering-Institution-ID", sourceBBID).header("X-CallbackURL", identityMapperConfig.callbackURL + stub)
+    //             .baseUri(identityMapperConfig.identityMapperContactPoint).body(registerBeneficiaryBody).expect()
+    //             .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).log().all().when()
+    //             .post(identityMapperConfig.registerBeneficiaryEndpoint).andReturn().asString();
+
+    //     logger.info("Identity Mapper Response: {}", scenarioScopeState.response);
+    // }
 
     @When("I call the add payment modality API with expected status of {int} and stub {string}")
     public void iCallTheAddPaymentModalityAPIWithExpectedStatusOf(int expectedStatus, String stub) {

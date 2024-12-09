@@ -25,6 +25,7 @@ Feature: Mock Flow Test
     And I should have startedAt and completedAt in response
     And I should have PayeeFspId as "pluto"
 
+  @tom
   Scenario: MFT-001 Test for minimal mock fund transfer flow
     Given I have tenant as "paymentBB2"
     And I create a new clientCorrelationId

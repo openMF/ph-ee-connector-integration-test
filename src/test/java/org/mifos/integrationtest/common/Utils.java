@@ -3,6 +3,7 @@ package org.mifos.integrationtest.common;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
+import static io.restassured.config.EncoderConfig.encoderConfig;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public final class Utils {
     public static final String DEFAULT_TENANT = "gorilla";
     public static final String X_CORRELATIONID = "X-CorrelationID";
     public static final String X_CallbackURL = "X-CallbackURL";
-    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String CONTENT_TYPE = "content-type";
     public static final String CONTENT_TYPE_VALUE = "application/json";
     public static final String HEADER_JWS_SIGNATURE = "X-SIGNATURE";
     public static final String HEADER_FILENAME = "filename";
@@ -35,6 +36,7 @@ public final class Utils {
     public static final String QUERY_PARAM_TYPE = "type";
     public static final String HEADER_REGISTERING_INSTITUTE_ID = "X-Registering-Institution-ID";
     public static final String HEADER_PROGRAM_ID = "X-Program-ID";
+    public static final String HEADER_DATE = "date";
 
     public static void initializeRESTAssured() {
         RestAssured.baseURI = "https://localhost";
@@ -51,6 +53,8 @@ public final class Utils {
     }
 
     public static RequestSpecification getDefaultSpec() {
+        RestAssured.config = RestAssured.config()
+        .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false));
         RequestSpecification requestSpec = new RequestSpecBuilder().build();
         requestSpec.relaxedHTTPSValidation();
         return requestSpec;
@@ -82,6 +86,14 @@ public final class Utils {
         return requestSpec;
     }
 
+    public static String getCurrentUTCFormat(String interfaceTimezone) {
+        ZonedDateTime interfaceDateTime = ZonedDateTime.now(ZoneId.of(interfaceTimezone));
+        ZonedDateTime gmtDateTime = interfaceDateTime.withZoneSameInstant(ZoneId.of("UTC"));
+        
+        // Use the ISO_INSTANT formatter for the desired format
+        return gmtDateTime.toInstant().toString();
+    }
+    
     public static String getUTCFormat(String dateTime, String interfaceTimezone) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);

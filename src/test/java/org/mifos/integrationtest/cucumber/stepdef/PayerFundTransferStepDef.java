@@ -66,6 +66,7 @@ public class PayerFundTransferStepDef extends BaseStepDef {
     public void setTenantForPayer(String client) {
         String tenant;
         logger.info(client);
+        System.out.println("TDDEBUG4: setTenant to " + client ); 
         if (client.equals("payer")) {
             tenant = transferConfig.payerTenant;
             fundTransferDef.setPayerTenant(tenant);
@@ -75,6 +76,7 @@ public class PayerFundTransferStepDef extends BaseStepDef {
             fundTransferDef.setPayeeTenant(tenant);
             scenarioScopeState.tenant = tenant;
         }
+        System.out.println("TDDEBUG4A: setTenant to " + tenant  ); 
         assertThat(tenant).isNotEmpty();
         fundTransferDef.setTenant(tenant);
         logger.info(tenant);
@@ -84,7 +86,8 @@ public class PayerFundTransferStepDef extends BaseStepDef {
     public void callCreateClientEndpoint(String client) throws JsonProcessingException {
         RequestSpecification requestSpec = Utils.getDefaultSpec();
         requestSpec = fundTransferDef.setHeaders(requestSpec);
-
+        requestSpec.log().all();
+        System.out.println("DEBUG-FTS-ENDPOINT: " + transferConfig.clientBaseUrl); 
         logger.info(client);
 
         fundTransferDef.createClientBody = fundTransferDef.setBodyClient(client);
@@ -92,7 +95,7 @@ public class PayerFundTransferStepDef extends BaseStepDef {
         String clientResponse = RestAssured.given(requestSpec).baseUri(transferConfig.clientBaseUrl).body(fundTransferDef.createClientBody)
                 .expect().spec(new ResponseSpecBuilder().expectStatusCode(200).build()).when().post(transferConfig.clientEndpoint)
                 .andReturn().asString();
-
+        System.out.println("DEBUG-CLIENT-RESPONSE clientResponse: " + clientResponse);
         if (client.equals("payer")) {
             fundTransferDef.responsePayerClient = clientResponse;
             assertThat(fundTransferDef.responsePayerClient).isNotEmpty();
@@ -123,11 +126,16 @@ public class PayerFundTransferStepDef extends BaseStepDef {
         // Setting headers and body
         RequestSpecification requestSpec = Utils.getDefaultSpec();
         requestSpec = fundTransferDef.setHeaders(requestSpec);
+        
         fundTransferDef.savingsAccountBody = fundTransferDef.setBodySavingsAccount(client);
+        requestSpec.log().all();
+        //System.out.println("TDDEBUG-ADD-SAVING-ACCT" + fundTransferDef.savingsAccountBody );
         // Calling savings product endpoint
         String responseSavingsAccount = RestAssured.given(requestSpec).baseUri(transferConfig.savingsBaseUrl)
                 .body(fundTransferDef.savingsAccountBody).expect().spec(new ResponseSpecBuilder().expectStatusCode(200).build()).when()
                 .post(transferConfig.savingsAccountEndpoint).andReturn().asString();
+        // System.out.println("TDDEBUG-ADD-SAVING-ACCT" +  );
+            
 
         logger.info("Savings Account Response: " + responseSavingsAccount);
 
@@ -155,12 +163,15 @@ public class PayerFundTransferStepDef extends BaseStepDef {
                 PostSavingsAccountsResponse.class);
         String identifier = savingsAccountResponse.getSavingsId().toString();
 
+        System.out.println("DEBUG5: identifier " + identifier ); 
+
         if (client.equals("payer")) {
             payer_identifier = identifier;
             scenarioScopeState.payerIdentifier = identifier;
         } else {
             payee_identifier = identifier;
             scenarioScopeState.payeeIdentifier = identifier;
+            System.out.println("DEBUG5: scenarioScopeState.identifier " + scenarioScopeState.payeeIdentifier );
         }
 
         String endpoint = transferConfig.interopIdentifierEndpoint;
@@ -168,6 +179,8 @@ public class PayerFundTransferStepDef extends BaseStepDef {
         endpoint = endpoint.replaceAll("\\{\\{identifier\\}\\}", identifier);
 
         // Calling Interop Identifier endpoint
+        System.out.println("DEBUG5: endpoint " + endpoint  ); 
+        requestSpec.log().all();
         fundTransferDef.responseInteropIdentifier = RestAssured.given(requestSpec).baseUri(transferConfig.savingsBaseUrl)
                 .body(fundTransferDef.interopIdentifierBody).expect().spec(new ResponseSpecBuilder().expectStatusCode(200).build()).when()
                 .post(endpoint).andReturn().asString();
@@ -176,7 +189,7 @@ public class PayerFundTransferStepDef extends BaseStepDef {
         assertThat(fundTransferDef.responseInteropIdentifier).isNotEmpty();
     }
 
-    @Then("I approve the deposit with command {string} for {string}")
+    @Then("I approve the account with command {string} for {string}")
     public void callApproveSavingsEndpoint(String command, String client) throws JsonProcessingException {
         // Setting headers and body
         RequestSpecification requestSpec = Utils.getDefaultSpec();
@@ -192,6 +205,8 @@ public class PayerFundTransferStepDef extends BaseStepDef {
         }
 
         // Calling create loan account endpoint
+        System.out.println("DEBUG6: " ); 
+        requestSpec.log().all();
         fundTransferDef.responseSavingsApprove = RestAssured.given(requestSpec).baseUri(transferConfig.savingsBaseUrl)
                 .body(fundTransferDef.savingsApproveBody).expect().spec(new ResponseSpecBuilder().expectStatusCode(200).build()).when()
                 .post(endpoint).andReturn().asString();
@@ -253,6 +268,7 @@ public class PayerFundTransferStepDef extends BaseStepDef {
     @Then("I can register the stub for callback endpoint of party lookup")
     public void registerStubForPartyLookup() {
         String endpoint = "parties/MSISDN/" + scenarioScopeState.payeeIdentifier;
+        System.out.println("DEBUG RegisterStubForPartyLookup" + endpoint );
         mockServerStepDef.startStub(endpoint, HttpMethod.PUT, 200);
     }
 
@@ -293,10 +309,11 @@ public class PayerFundTransferStepDef extends BaseStepDef {
         String endpoint = mojaloopConfig.mlConnectorGetPartyEndpoint;
         endpoint = endpoint.replaceAll("\\{\\{identifierType\\}\\}", "MSISDN");
         endpoint = endpoint.replaceAll("\\{\\{identifier\\}\\}", identifier);
-
+        System.out.println("DEBUG7: endpoint " + endpoint  ) ; 
+        requestSpec.log().all(); 
         scenarioScopeState.response = RestAssured.given(requestSpec).baseUri("https://" + mojaloopConfig.mlConnectorHost).expect()
                 .spec(new ResponseSpecBuilder().expectStatusCode(202).build()).when().get(endpoint).andReturn().asString();
-
+        System.out.println("DEBUG7A: scenarioScopeState.response : " + scenarioScopeState.response );
         assertThat(scenarioScopeState.response).isNotNull();
     }
 

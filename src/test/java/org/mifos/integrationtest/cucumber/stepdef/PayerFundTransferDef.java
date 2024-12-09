@@ -102,7 +102,8 @@ public class PayerFundTransferDef {
     protected RequestSpecification setHeaders(RequestSpecification requestSpec) {
         requestSpec.header("Fineract-Platform-TenantId", tenant);
         requestSpec.header("Authorization", authorizationToken);
-        requestSpec.header("Content-Type", "application/json;charset=UTF-8");
+        //requestSpec.header("Content-Type", "application/json;charset=UTF-8");
+        requestSpec.header("Content-Type", "application/json");
         return requestSpec;
     }
 

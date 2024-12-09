@@ -67,7 +67,7 @@ ams:
   balance-endpoint: /ams/accounts/{IdentifierType}/{IdentifierId}/balance
 
 loan:
-  base-url: https://fynams.mifos.gazelle.test
+  base-url: https://mifos.mifos.gazelle.test
   endpoints:
     product-endpoint: /fineract-provider/api/v1/loanproducts
     account-endpoint: /fineract-provider/api/v1/loans
@@ -77,7 +77,7 @@ loan:
     accountid-endpoint: /fineract-provider/api/v1/loans/{{loanAccId}}
 
 savings:
-  base-url: https://fynams.mifos.gazelle.test
+  base-url: https://mifos.mifos.gazelle.test
   endpoints:
     client-endpoint: /fineract-provider/api/v1/clients
     product-endpoint: /fineract-provider/api/v1/savingsproducts
@@ -182,19 +182,21 @@ config:
 
 payerFundTransfer:
   tenant:
-    payer: "wakanda"
-    payee: "jupiter"
+    payer: "FREDbluebank"
+    payee: "greenbank"
 
 mojaloop:
   fspid:
-    payer: "payerfsp"
-    payee: "payeefsp"
-  contactpoint: http://account-lookup-service.mifos.gazelle.test
-  central-ledger-contactpoint: http://central-ledger.mifos.gazelle.test
-  account-lookup-admin-contactpoint: http://account-lookup-service-admin.mifos.gazelle.test
+    payer: "bluebank"
+    payee: "greenbank"
+  contactpoint: http://fspiop.mifos.gazelle.test
+  central-ledger-contactpoint: http://fspiop.mifos.gazelle.test
+  account-lookup-admin-contactpoint: http://fspiop.mifos.gazelle.test
   endpoint:
     als: /participants/{{identifierType}}/{{identifier}}
-    hub-account: /participants/Hub/accounts
+    #hub-account: /participants/Hub/accounts
+    hub-account: /MSISDN/27713803912
+    bluebank-account: /parties/MSISDN/27713803912 
     settlement-model: /settlementModels
     participant: /participants
     position-and-limits: /participants/{{fsp}}/initialPositionAndLimits
@@ -227,6 +229,7 @@ mojaloop:
 
 ml-connector:
   host:  "mojaloop.mifos.gazelle.test"
+  perf-mode: false 
   contactpoint: "https://mojaloop.mifos.gazelle.test"
   endpoint:
     get-party: "/switch/parties/{{identifierType}}/{{identifier}}"
@@ -250,8 +253,8 @@ awaitly:
 
 tenantconfig:
   tenants:
-    paymentbb1: "rhino"
-    paymentbb2: "gorilla"
+    paymentbb1: "greenbank"
+    paymentbb2: "bluebank"
     payerfsp: "wakanda"
     payeefsp1: "pluto"
     payeefsp2: "venus"
@@ -266,3 +269,6 @@ fspconfig:
     payerfsp1: "wakanda"
     payerfsp2: "gorilla"
 
+logging:
+  level:
+    org.mifos.integrationtest: DEBUG

@@ -13,6 +13,7 @@ import org.mifos.integrationtest.common.Utils;
 import org.mifos.integrationtest.config.MojaloopConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 public class MojaloopStepDef extends BaseStepDef {
 
     @Autowired
@@ -66,38 +67,40 @@ public class MojaloopStepDef extends BaseStepDef {
     public void mojaloopSetup() throws JsonProcessingException {
 
         String payerFsp = mojaloopConfig.payerFspId;
+        System.out.printf("FRED payerFspId : %s", mojaloopConfig.payerFspId);
+        logger.info("payerFspId : %s", mojaloopConfig.payerFspId);
         String payeeFsp = mojaloopConfig.payeeFspId;
 
-        if (!mojaloopDef.isHubAccountTypesAdded()) {
+        if (!mojaloopDef.isBlueBankLoaded()) {
+            System.out.println("FRED isbluebankLoaded ");
+            logger.info("verify bluebank is loaded ");
 
-            logger.info("Calling hub account apis");
-
-            mojaloopDef.hubMultilateralSettlement();
-            mojaloopDef.hubReconciliation();
+            // mojaloopDef.hubMultilateralSettlement();
+            // mojaloopDef.hubReconciliation();
         }
 
-        if (!mojaloopDef.isSettlementModelsCreated()) {
+        // if (!mojaloopDef.isSettlementModelsCreated()) {
 
-            logger.info("Calling Settlement Models apis");
+        //     logger.info("Calling Settlement Models apis");
 
-            mojaloopDef.createSettlementModelDeferredNet();
-            mojaloopDef.createSettlementModelDeferredNetUSD();
-        }
+        //     mojaloopDef.createSettlementModelDeferredNet();
+        //     mojaloopDef.createSettlementModelDeferredNetUSD();
+        // }
 
-        mojaloopDef.addFsp(payerFsp);
-        mojaloopDef.addFsp(payeeFsp);
-        mojaloopDef.addInitialPositionAndLimit(payerFsp);
-        mojaloopDef.addInitialPositionAndLimit(payeeFsp);
+        // mojaloopDef.addFsp(payerFsp);
+        // mojaloopDef.addFsp(payeeFsp);
+        // mojaloopDef.addInitialPositionAndLimit(payerFsp);
+        // mojaloopDef.addInitialPositionAndLimit(payeeFsp);
 
-        if (!mojaloopDef.getCallbackEndpoints(payerFsp) || !mojaloopDef.getCallbackEndpoints(payeeFsp)) {
-            mojaloopDef.setCallbackEndpoints();
-        }
+        // if (!mojaloopDef.getCallbackEndpoints(payerFsp) || !mojaloopDef.getCallbackEndpoints(payeeFsp)) {
+        //     mojaloopDef.setCallbackEndpoints();
+        // }
 
-        mojaloopDef.recordFunds(payerFsp);
+        // mojaloopDef.recordFunds(payerFsp);
 
-        if (!mojaloopDef.oracleExists()) {
-            mojaloopDef.oracleOnboard();
-        }
-    }
+        // if (!mojaloopDef.oracleExists()) {
+        //     mojaloopDef.oracleOnboard();
+        // }
+   }
 
 }

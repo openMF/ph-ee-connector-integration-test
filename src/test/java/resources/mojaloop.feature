@@ -1,6 +1,6 @@
-@gov @ext
 Feature: Mojaloop test
 
+  @tom 
   Scenario: ML connector partial payee party lookup test
     Given I am setting up Mojaloop
     Given I have Fineract-Platform-TenantId for "payee"
@@ -8,7 +8,7 @@ Feature: Mojaloop test
     Then I call the create savings product endpoint for "payee"
     When I call the create savings account endpoint for "payee"
     Then I call the interop identifier endpoint for "payee"
-    Then I approve the deposit with command "approve" for "payee"
+    Then I approve the account with command "approve" for "payee"
     When I activate the account with command "activate" for "payee"
     When I can inject MockServer
     Then I can start mock server
@@ -17,6 +17,7 @@ Feature: Mojaloop test
 #    Then I will sleep for 5000 millisecond
     Then I should be able to verify the callback for lookup
     Then I can stop mock server
+
 
   Scenario: ML connector partial payee quotation test
     Given I am setting up Mojaloop
@@ -34,7 +35,7 @@ Feature: Mojaloop test
 #    Then I will sleep for 5000 millisecond
     Then I should be able to verify the callback for quotation
     Then I can stop mock server
-
+  
   Scenario: ML connector partial payee transfer test
     Given I am setting up Mojaloop
     Given I have Fineract-Platform-TenantId for "payee"
